@@ -1,18 +1,18 @@
 # syntax=docker/dockerfile:1
-FROM debian:latest
+FROM debian:stable
 
-# Set up the default locale
-ENV LANG="en_US.UTF-8"
-ENV LANGUAGE="en_US.UTF-8"
-ENV ANDROID_HOME=/usr/lib/android-sdk
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Install system commands, Android SDK, and Ruby
-RUN apt update && apt install -y coreutils git wget nano locales android-sdk android-sdk-build-tools rbenv ruby-dev
+RUN apt-get update  \
+    && apt-get install -y coreutils git wget locales android-sdk android-sdk-build-tools \
+    && apt-get -y autoclean
 
-# Set up a base ruby and install bundler
-RUN mkdir -p "$(rbenv root)"/plugins \
-	&& git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build \
-	&& rbenv install 2.6.4 && rbenv global 2.6.4
+# Set up the default locale
+RUN locale-gen en_US.UTF-8
+ENV LANG="en_US.UTF-8" LANGUAGE="en_US:en"
+ENV ANDROID_HOME=/usr/lib/android-sdk
+ENV GRADLE_OPTS="-Xmx6G -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false"
 
 # Download the SDK Manager
 RUN wget https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip \
@@ -20,17 +20,7 @@ RUN wget https://dl.google.com/android/repository/commandlinetools-linux-6858069
 	&& mkdir /usr/lib/android-sdk/cmdline-tools \
 	&& mv cmdline-tools /usr/lib/android-sdk/cmdline-tools/latest
 
-# Set the full $PATH
-ENV PATH="/root/.rbenv/shims:/usr/lib/android-sdk/cmdline-tools/latest/bin:$HOME/.rbenv/bin:${PATH}"
-
-# Install bundler after setting the $PATH in order to ensure it's installed as part of the rbenv-managed ruby version
-RUN gem install bundler
-
-#################################
-#                               #
-#    Install SDKs we support    #
-#                               #
-#################################
+ENV PATH="//usr/lib/android-sdk/cmdline-tools/latest/bin:${PATH}"
 
 RUN sdkmanager "platforms;android-30" "system-images;android-30;google_apis_playstore;x86_64" "build-tools;30.0.0"
 
