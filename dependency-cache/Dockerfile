@@ -13,4 +13,5 @@ RUN git clone https://github.com/wordpress-mobile/WordPress-Android.git /var/wor
     && rm -rf /var/wordpress-android
 
 RUN mv /root/.gradle/caches/modules-2 $GRADLE_RO_DEP_CACHE/caches/modules-2
+RUN rm $GRADLE_RO_DEP_CACHE/caches/modules-2/*.lock $GRADLE_RO_DEP_CACHE/caches/modules-2/gc.properties || true
 RUN rm -rf /root.gradle/caches/modules-2
