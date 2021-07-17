@@ -3,6 +3,9 @@ FROM debian:stable
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
+RUN mkdir scripts
+COPY scripts/ scripts/
+
 # Install system commands, Android SDK, and Ruby
 RUN apt-get update  \
     && apt-get install -y coreutils git wget locales android-sdk android-sdk-build-tools \
