@@ -28,4 +28,4 @@ RUN yes | sdkmanager --licenses
 
 RUN mkdir scripts
 COPY scripts/ scripts/
-ENV PATH="scripts/:${PATH}"
+ENV PATH="/scripts/:${PATH}"
