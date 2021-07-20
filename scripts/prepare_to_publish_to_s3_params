@@ -1,7 +1,5 @@
 #!/bin/bash
 
-printenv | grep buildkite
-
 PARAMS=(--sha1=$BUILDKITE_COMMIT)
 [[ -n "$BUILDKITE_TAG" ]] && PARAMS+=(--tag-name=$BUILDKITE_TAG)
 [[ -n "$BUILDKITE_BRANCH" ]] && PARAMS+=(--branch-name=$BUILDKITE_BRANCH)
