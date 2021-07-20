@@ -25,3 +25,7 @@ ENV PATH="//usr/lib/android-sdk/cmdline-tools/latest/bin:${PATH}"
 RUN sdkmanager "platforms;android-30" "system-images;android-30;google_apis_playstore;x86_64" "build-tools;30.0.0"
 
 RUN yes | sdkmanager --licenses
+
+RUN mkdir scripts
+COPY scripts/ scripts/
+ENV PATH="/scripts/:${PATH}"
