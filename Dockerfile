@@ -30,4 +30,4 @@ RUN mkdir scripts
 COPY scripts/ scripts/
 ENV PATH="/scripts/:${PATH}"
 
-RUN git clone --depth 1 https://github.com/wordpress-mobile/WordPress-Utils-Android.git
+RUN git clone --depth 1 https://github.com/wordpress-mobile/WordPress-Utils-Android.git /workdir
