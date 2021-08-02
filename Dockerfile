@@ -33,6 +33,6 @@ ENV PATH="/scripts/:${PATH}"
 RUN git clone --depth 1 --recurse-submodules https://github.com/wordpress-mobile/WordPress-Android.git \
     && pushd WordPress-Android \
     && cp gradle.properties-example gradle.properties \
-    && ./gradlew :WordPress:dependencies \
+    && ./gradlew lintWordpressVanillaRelease \
     && popd \
     && rm -rf WordPress-Android
