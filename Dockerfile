@@ -5,7 +5,8 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Install system commands, Android SDK, and Ruby
 RUN apt-get update  \
-    && apt-get install -y coreutils git wget locales android-sdk android-sdk-build-tools \
+    && apt-get install -y coreutils git wget locales android-sdk android-sdk-build-tools bzip2 \
+	&& apt-get install -y autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev \
     && apt-get -y autoclean
 
 # Set up the default locale
@@ -29,3 +30,22 @@ RUN yes | sdkmanager --licenses
 RUN mkdir scripts
 COPY scripts/ scripts/
 ENV PATH="/scripts/:${PATH}"
+
+# Install Ruby (for release tooling)
+# Install rbenv
+RUN git clone https://github.com/rbenv/rbenv.git /usr/local/rbenv
+RUN echo '# rbenv setup' > /etc/profile.d/rbenv.sh
+RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /etc/profile.d/rbenv.sh
+RUN echo 'export PATH="$RBENV_ROOT/bin:$PATH"' >> /etc/profile.d/rbenv.sh
+RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
+RUN chmod +x /etc/profile.d/rbenv.sh
+
+# Install ruby-build
+RUN mkdir /usr/local/rbenv/plugins
+RUN git clone https://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build
+ENV RBENV_ROOT /usr/local/rbenv
+ENV PATH="$RBENV_ROOT/bin:$RBENV_ROOT/shims:${PATH}"
+
+# Install Ruby 2.7.4
+RUN rbenv install 2.7.4 \
+	&& rbenv global 2.7.4
