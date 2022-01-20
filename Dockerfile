@@ -6,7 +6,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # Install system commands, Android SDK, and Ruby
 RUN apt-get update  \
     && apt-get install -y coreutils git wget locales android-sdk android-sdk-build-tools bzip2 \
-	&& apt-get install -y autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev \
+    && apt-get install -y autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev \
     && apt-get -y autoclean
 
 # Set up the default locale
