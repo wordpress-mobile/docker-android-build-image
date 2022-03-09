@@ -3,9 +3,13 @@ FROM debian:stable
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
+# Increase the file watcher limit for node. This should not be necessary for CI builds since watchers should be disabled, but it can be useful when running this image in a local environment. 
+RUN echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf
+
 # Install system commands, Android SDK, and Ruby
 RUN apt-get update  \
     && apt-get install -y coreutils git wget locales android-sdk android-sdk-build-tools \
+    && apt-get install -y curl git php-cli php-mbstring  \
     && apt-get -y autoclean
 
 # Set up the default locale
@@ -47,4 +51,8 @@ RUN mkdir gradle-cache-tmp \
         && gradle-8.2.1/bin/gradle wrapper --gradle-version 8.2.1 --distribution-type all \
         && ./gradlew \
         && cd .. \
-        && rm -rf ./gradle-cache-tmp \
+        && rm -rf ./gradle-cache-tmp
+
+SHELL ["/bin/bash", "--login", "-c"]
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+RUN nvm install lts/*
