@@ -22,9 +22,17 @@ RUN wget https://dl.google.com/android/repository/commandlinetools-linux-6858069
 
 ENV PATH="//usr/lib/android-sdk/cmdline-tools/latest/bin:${PATH}"
 
-RUN sdkmanager "platforms;android-30" "system-images;android-30;google_apis_playstore;x86_64" "build-tools;30.0.0"
-
 RUN yes | sdkmanager --licenses
+
+# Uninstall '29.0.3' so that the builds won't complain about it being installed in incorrect location
+RUN sdkmanager --uninstall "build-tools;29.0.3"
+
+RUN sdkmanager --install \
+  "build-tools;33.0.2" \
+  "build-tools;34.0.0" \
+  "platform-tools" \
+  "platforms;android-33" \
+  "platforms;android-34"
 
 RUN mkdir scripts
 COPY scripts/ scripts/
