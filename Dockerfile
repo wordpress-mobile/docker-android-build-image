@@ -38,13 +38,13 @@ RUN mkdir scripts
 COPY scripts/ scripts/
 ENV PATH="/scripts/:${PATH}"
 
-# Cache Gradle 7.4
+# Cache Gradle 8.2.1
 RUN mkdir gradle-cache-tmp \
         && cd gradle-cache-tmp \
-        && wget https://services.gradle.org/distributions/gradle-7.4-bin.zip \
-        && unzip gradle-7.4-bin.zip \
+        && wget https://services.gradle.org/distributions/gradle-8.2.1-bin.zip \
+        && unzip gradle-8.2.1-bin.zip \
         && touch settings.gradle \
-        && gradle-7.4/bin/gradle wrapper --gradle-version 7.4 --distribution-type all \
+        && gradle-8.2.1/bin/gradle wrapper --gradle-version 8.2.1 --distribution-type all \
         && ./gradlew \
         && cd .. \
         && rm -rf ./gradle-cache-tmp \
