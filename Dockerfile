@@ -43,7 +43,10 @@ COPY scripts/ scripts/
 ENV PATH="/scripts/:${PATH}"
 
 SHELL ["/bin/bash", "--login", "-c"]
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-RUN export NVM_DIR="$HOME/.nvm" \
-    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && nvm install lts/*
+ENV NODE_VERSION v20.11.0
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash \
+    && source "$HOME/.nvm/nvm.sh" \
+    && nvm install $NODE_VERSION
+ENV PATH="//root/.nvm/versions/node/$NODE_VERSION/bin:${PATH}"
+
+RUN which npm
