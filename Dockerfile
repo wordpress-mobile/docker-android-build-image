@@ -8,7 +8,7 @@ RUN echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf
 
 # Install system commands, Android SDK, and Ruby
 RUN apt-get update  \
-    && apt-get install -y coreutils git wget locales android-sdk android-sdk-build-tools \
+    && apt-get install -y coreutils git wget locales \
     && apt-get install -y curl git php-cli php-mbstring  \
     && apt-get -y autoclean
 
