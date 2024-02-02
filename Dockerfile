@@ -19,9 +19,9 @@ ENV ANDROID_HOME=/usr/lib/android-sdk
 ENV GRADLE_OPTS="-Xmx6G -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false"
 
 # Download the SDK Manager
-RUN wget https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip \
-	&& unzip commandlinetools-linux-6858069_latest.zip && rm commandlinetools-linux-6858069_latest.zip \
-	&& mkdir /usr/lib/android-sdk/cmdline-tools \
+RUN wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip \
+	&& unzip commandlinetools-linux-11076708_latest.zip && rm commandlinetools-linux-11076708_latest.zip \
+	&& mkdir -p /usr/lib/android-sdk/cmdline-tools \
 	&& mv cmdline-tools /usr/lib/android-sdk/cmdline-tools/latest
 
 ENV PATH="//usr/lib/android-sdk/cmdline-tools/latest/bin:${PATH}"
